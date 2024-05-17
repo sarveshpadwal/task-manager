@@ -1,0 +1,35 @@
+version: "3.9"
+
+volumes:
+  dbdata:
+    driver: local
+
+services:
+  db:
+    image: "postgres:15.2"
+    container_name: "task_manager"
+    environment:
+      POSTGRES_USER: "taskmgrdbuser"
+      POSTGRES_PASSWORD: "$$@rv3$$h"
+      POSTGRES_DB: "task_manager"
+    ports:
+      - "5432:5432"
+    command: [ "postgres", "-c", "log_statement=all" ]
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+
+  zipkin-server:
+    image: openzipkin/zipkin:latest
+    ports:
+      - '9411:9411'
+    environment:
+      RABBIT_URI: amqp://guest:guest@rabbitmq:5672
+    depends_on:
+      - rabbitmq
+    restart: always
+
+  rabbitmq:
+    image: rabbitmq:3.8.12-management
+    ports:
+      - '5672:5672'
+      - '15672:15672'

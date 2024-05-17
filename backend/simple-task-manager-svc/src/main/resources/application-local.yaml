@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/task_manager?serverTimezone=UTC
+    username: taskmgrdbuser
+    password: $@rv3$h
+---
+springdoc:
+  swagger-ui:
+    config-url: /v3/api-docs/swagger-config
+    url: /v3/api-docs
+---
+logging:
+  config: "classpath:logback-debug.xml"

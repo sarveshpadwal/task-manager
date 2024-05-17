@@ -1,0 +1,53 @@
+spring:
+  application:
+    name: simple-task-manager-svc
+---
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      minimum-idle: 10
+      maximum-pool-size: 50
+      idle-timeout: 60000
+      max-lifetime: 1800000
+      connection-timeout: 10000
+      data-source-properties:
+        useUnicode: true
+        characterEncoding: UTF-8
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: false
+    open-in-view: false
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+    enabled: true
+---
+spring:
+  jackson:
+    serialization:
+      write-dates-as-timestamps: true
+---
+server:
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+---
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - "*"
+  tracing:
+    sampling:
+      probability: 1.0
+    enabled: true
+    propagation:
+      type: w3c
