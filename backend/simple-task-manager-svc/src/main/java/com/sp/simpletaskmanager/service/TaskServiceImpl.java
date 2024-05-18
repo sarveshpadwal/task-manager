@@ -42,6 +42,7 @@ public class TaskServiceImpl implements TaskService {
         repo.save(task);
         TaskAudit taskAudit = mapper.mapToAudit(task);
         auditRepo.save(taskAudit);
+        log.debug("task {} status updated to {}", id, taskPayload.getStatus());
         return mapper.mapToDto(task);
     }
 
@@ -51,11 +52,13 @@ public class TaskServiceImpl implements TaskService {
         task = repo.save(task);
         TaskAudit taskAudit = mapper.mapToAudit(task);
         auditRepo.save(taskAudit);
+        log.debug("task {} created", taskPayload.getTitle());
         return mapper.mapToDto(task);
     }
 
     @Override
     public void deleteTask(UUID id) {
         repo.deleteById(id);
+        log.warn("task {} deleted", id);
     }
 }

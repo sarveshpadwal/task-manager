@@ -31,9 +31,4 @@ public enum TaskStatus {
                 .findAny()
                 .orElse(null);
     }
-
-    @Override
-    public String toString() {
-        return value;
-    }
 }

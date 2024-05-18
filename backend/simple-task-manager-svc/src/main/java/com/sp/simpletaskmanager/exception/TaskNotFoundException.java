@@ -16,6 +16,6 @@ public class TaskNotFoundException extends TaskManagerException {
      * @see TaskManagerException#TaskManagerException(ErrorDetails)
      */
     public TaskNotFoundException() {
-        super(ErrorGenerator.generateForCode("1023"));
+        super(ErrorGenerator.generateForCode("1004"));
     }
 }

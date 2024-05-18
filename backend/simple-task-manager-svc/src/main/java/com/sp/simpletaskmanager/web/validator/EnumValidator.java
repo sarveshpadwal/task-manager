@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 /**
@@ -19,6 +19,8 @@ public class EnumValidator implements ConstraintValidator<ValidEnum, Object> {
 
     private List<String> acceptedValues = null;
 
+    private boolean nullable;
+
     /**
      * {@inheritDoc}
      */
@@ -26,7 +28,8 @@ public class EnumValidator implements ConstraintValidator<ValidEnum, Object> {
     public void initialize(ValidEnum constraintAnnotation) {
         acceptedValues = Stream.of(constraintAnnotation.enumClass().getEnumConstants())
                 .map(Enum::name)
-                .collect(Collectors.toList());
+                .toList();
+        nullable = constraintAnnotation.nullable();
     }
 
     /**
@@ -34,6 +37,9 @@ public class EnumValidator implements ConstraintValidator<ValidEnum, Object> {
      */
     @Override
     public boolean isValid(Object value, ConstraintValidatorContext context) {
-        return ObjectUtils.isEmpty(value) || acceptedValues.contains(value.toString().toUpperCase());
+        if (nullable && ObjectUtils.isEmpty(value)) {
+            return true;
+        }
+        return Objects.nonNull(value) && acceptedValues.contains(value.toString());
     }
 }

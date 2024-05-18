@@ -16,6 +16,7 @@ import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.Type;
 
+import java.time.Instant;
 import java.util.UUID;
 
 /**
@@ -68,9 +69,8 @@ public class TaskAudit {
     @Column(name = "status", columnDefinition = "task_status", nullable = false)
     private TaskStatus status;
 
-    /**
-     * version number of the database record
-     */
-    @Column(name = "version", nullable = false)
-    private Integer version;
+    @Column(name = "ts", insertable = false, updatable = false,
+            columnDefinition = "TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP", nullable = false)
+    private Instant ts;
+
 }

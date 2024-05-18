@@ -27,6 +27,8 @@ repositories {
 }
 
 val modelMapperVersion: String by extra("3.2.0")
+val esapiVersion: String by extra("2.5.3.1")
+val antisamyVersion: String by extra("1.7.5")
 val logstashLogbackEncoderVersion: String by extra("7.2")
 val springdocOpenapiStarterWebmvcUiVersion: String by extra("2.5.0")
 val testContainerVersion: String by extra("1.19.7")
@@ -38,6 +40,10 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
 	implementation("org.liquibase:liquibase-core")
 	implementation("org.modelmapper:modelmapper:$modelMapperVersion")
+	implementation("org.owasp.esapi:esapi:$esapiVersion:jakarta") {
+		exclude(group = "org.owasp.antisamy", module = "antisamy")
+	}
+	implementation("org.owasp.antisamy:antisamy:$antisamyVersion")
 	implementation("io.micrometer:micrometer-tracing-bridge-brave")
 	implementation("io.zipkin.reporter2:zipkin-reporter-brave")
 	implementation("net.logstash.logback:logstash-logback-encoder:$logstashLogbackEncoderVersion")

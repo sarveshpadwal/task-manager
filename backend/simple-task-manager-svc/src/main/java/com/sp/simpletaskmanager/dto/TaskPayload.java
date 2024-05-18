@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.sp.simpletaskmanager.constant.TaskStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -38,6 +39,7 @@ public class TaskPayload {
     /**
      * status of the task
      */
+    @NotNull(message = "1006")
     @Schema(description = "status of the task")
     private TaskStatus status;
 }

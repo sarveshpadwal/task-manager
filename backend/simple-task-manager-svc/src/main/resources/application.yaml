@@ -51,3 +51,6 @@ management:
     enabled: true
     propagation:
       type: w3c
+---
+cors:
+  allowed-origin-patterns: http://localhost:3000

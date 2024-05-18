@@ -27,6 +27,8 @@ public @interface ValidEnum {
     @SuppressWarnings("squid:S1452")
     Class<? extends Enum<?>> enumClass();
 
+    boolean nullable() default false;
+
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};

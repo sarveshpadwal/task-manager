@@ -65,7 +65,8 @@ public interface TaskApi {
                     schema = @Schema(implementation = Response.class, subTypes = {Response.class}),
                     examples =
                     @ExampleObject(
-                            value = "{\"status\":\"SUCCESS\",\"data\":[{\"id\":\"9da46a6f-c2f1-4c74-a615-6a6d591b0217\","
+                            value = "{\"status\":\"SUCCESS\",\"data\":["
+                                    + "{\"id\":\"9da46a6f-c2f1-4c74-a615-6a6d591b0217\","
                                     + "\"title\":\"title1\",\"status\":\"TODO\"}],\"errors\":null}"
                     )))
     @ResponseStatus(HttpStatus.OK)
