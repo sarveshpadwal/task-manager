@@ -42,9 +42,7 @@ export default class Create extends React.Component<IProps, IState> {
     private onSave = () => {
         BaseService.create<Task>("/tasks", this.state.task).then(
             (rp) => {
-                console.log("create task api response:", rp);
                 if ("SUCCESS" === rp.status) {
-                    console.log("create task api successful");
                     toastr.success('task created');
                     this.setState({
                         task: {
@@ -55,7 +53,6 @@ export default class Create extends React.Component<IProps, IState> {
                         }
                     });
                 } else {
-                    console.log("create task api failed");
                     (rp.errors || []).forEach((err: any) => {
                         toastr.error(
                             err.displayMessage,

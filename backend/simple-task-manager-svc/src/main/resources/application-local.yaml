@@ -3,8 +3,6 @@ spring:
     url: jdbc:postgresql://localhost:5432/task_manager?serverTimezone=UTC
     username: taskmgrdbuser
     password: $@rv3$h
-  liquibase:
-    drop-first: true
 ---
 springdoc:
   swagger-ui:

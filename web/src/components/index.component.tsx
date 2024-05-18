@@ -11,6 +11,7 @@ interface IState {
   isReady: Boolean;
   hasError: Boolean;
   errors: Array<ErrorDetails>;
+  statusFilter: string;
 }
 
 class Index extends React.Component<IProps, IState> {
@@ -18,7 +19,8 @@ class Index extends React.Component<IProps, IState> {
     listTasks: new Array<Task>(),
     isReady: false,
     hasError: false,
-    errors: new Array<ErrorDetails>()
+    errors: new Array<ErrorDetails>(),
+    statusFilter: ''
   };
   constructor(props: IProps) {
     super(props);
@@ -26,12 +28,13 @@ class Index extends React.Component<IProps, IState> {
       listTasks: Array<Task>(),
       isReady: false,
       hasError: false,
-      errors: new Array<ErrorDetails>()
+      errors: new Array<ErrorDetails>(),
+      statusFilter: ''
     };
   }
 
-  public componentDidMount() {
-    BaseService.getAll<Task>("/tasks").then((rp) => {
+  public fetchTasks() {
+    BaseService.getAll<Task>("/tasks", {status: this.state.statusFilter}).then((rp) => {
       if (rp.data) {
         const listTasks = new Array<Task>();
         (rp.data || []).forEach((task: any) => {
@@ -51,6 +54,10 @@ class Index extends React.Component<IProps, IState> {
         console.log("errors: " + rp.errors);
       }
     });
+  }
+
+  public componentDidMount() {
+    this.fetchTasks();
 
     setTimeout(() => {
       if (!this.state.isReady) {
@@ -108,6 +115,18 @@ class Index extends React.Component<IProps, IState> {
     return (
       <div>
         <h3 className="text-center">Tasks List</h3>
+        <div>
+          Select status to filter tasks:
+          <select name="filter-status" onChange={async (e) => {
+            await this.setState({ statusFilter: e.target.value });
+            this.fetchTasks();
+          }}>
+            <option value={""}>All</option>
+            <option value={"To Do"}>To Do</option>
+            <option value={"In Progress"}>In Progress</option>
+            <option value={"Done"}>Done</option>
+          </select>
+        </div>
         <table className="table table-striped" style={{ marginTop: 20 }}>
           <thead style={{ position: "sticky", top: 0 }}>
             <tr>

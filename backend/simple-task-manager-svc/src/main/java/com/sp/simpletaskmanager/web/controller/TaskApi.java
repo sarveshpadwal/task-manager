@@ -1,6 +1,7 @@
 package com.sp.simpletaskmanager.web.controller;
 
 import com.sp.simpletaskmanager.constant.Status;
+import com.sp.simpletaskmanager.constant.TaskStatus;
 import com.sp.simpletaskmanager.dto.Response;
 import com.sp.simpletaskmanager.dto.TaskDetails;
 import com.sp.simpletaskmanager.dto.TaskPayload;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.List;
@@ -71,8 +73,8 @@ public interface TaskApi {
                     )))
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/tasks", produces = MediaType.APPLICATION_JSON_VALUE)
-    default Response<List<TaskDetails>> getAllTasks() {
-        List<TaskDetails> taskDetailsList = getDelegate().getAllTasks();
+    default Response<List<TaskDetails>> getAllTasks(@RequestParam(value = "status", required = false) TaskStatus status) {
+        List<TaskDetails> taskDetailsList = getDelegate().getAllTasks(status);
         return new Response<>(Status.SUCCESS, taskDetailsList);
     }
 

@@ -59,7 +59,6 @@ class Edit extends React.Component<IProps, IState> {
 
 
     private onSave = () => {
-        console.log(this.state.task);
         BaseService.update<Task>("/tasks/", this.props.match.params.id, this.state.task).then(
             (rp) => {
                 if ("SUCCESS" === rp.status) {

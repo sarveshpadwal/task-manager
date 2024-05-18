@@ -1,5 +1,6 @@
 package com.sp.simpletaskmanager.service;
 
+import com.sp.simpletaskmanager.constant.TaskStatus;
 import com.sp.simpletaskmanager.dto.TaskDetails;
 import com.sp.simpletaskmanager.dto.TaskPayload;
 import com.sp.simpletaskmanager.entity.Task;
@@ -13,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Slf4j
@@ -25,8 +27,14 @@ public class TaskServiceImpl implements TaskService {
     private final TaskMapper mapper;
 
     @Override
-    public List<TaskDetails> getAllTasks() {
-        return repo.findAll().stream().map(mapper::mapToDto).toList();
+    public List<TaskDetails> getAllTasks(TaskStatus status) {
+        List<Task> tasks;
+        if (Objects.nonNull(status)) {
+            tasks = repo.findAllByStatus(status);
+        } else {
+            tasks = repo.findAll();
+        }
+        return tasks.stream().map(mapper::mapToDto).toList();
     }
 
     @Override
