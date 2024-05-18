@@ -152,7 +152,7 @@ public interface TaskApi {
                     )))
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(value = "/tasks", produces = MediaType.APPLICATION_JSON_VALUE)
-    default Response<TaskDetails> saveAnswer(@Valid @RequestBody TaskPayload taskPayload) {
+    default Response<TaskDetails> saveTask(@Valid @RequestBody TaskPayload taskPayload) {
         TaskDetails taskDetails = getDelegate().saveTask(taskPayload);
         return new Response<>(Status.SUCCESS, taskDetails);
     }

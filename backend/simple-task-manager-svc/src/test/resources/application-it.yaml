@@ -1,0 +1,6 @@
+spring:
+  main:
+    allow-bean-definition-overriding: true
+---
+logging:
+  config: "classpath:logback-debug.xml"

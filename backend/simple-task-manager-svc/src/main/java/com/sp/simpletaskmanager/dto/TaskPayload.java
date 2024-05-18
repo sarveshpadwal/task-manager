@@ -6,6 +6,7 @@ import com.sp.simpletaskmanager.constant.TaskStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -20,6 +21,7 @@ import lombok.NoArgsConstructor;
 @JsonPropertyOrder({"title", "description", "status"})
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @Schema(description = "task details to save in the database")
 public class TaskPayload {
 

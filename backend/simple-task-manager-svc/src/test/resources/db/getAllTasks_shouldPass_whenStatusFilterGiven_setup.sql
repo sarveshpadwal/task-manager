@@ -1,0 +1,15 @@
+INSERT INTO task(title, description, status, version) VALUES
+('getAllTasks_shouldPass_whenStatusFilterGiven_title1',
+ 'getAllTasks_shouldPass_whenStatusFilterGiven_description_1', 'To Do', 0),
+('getAllTasks_shouldPass_whenStatusFilterGiven_title2',
+ 'getAllTasks_shouldPass_whenStatusFilterGiven_description_2', 'To Do', 0),
+('getAllTasks_shouldPass_whenStatusFilterGiven_title3',
+ 'getAllTasks_shouldPass_whenStatusFilterGiven_description_3', 'In Progress', 0),
+('getAllTasks_shouldPass_whenStatusFilterGiven_title4',
+ 'getAllTasks_shouldPass_whenStatusFilterGiven_description_4', 'To Do', 0),
+('getAllTasks_shouldPass_whenStatusFilterGiven_title5',
+ 'getAllTasks_shouldPass_whenStatusFilterGiven_description_5', 'In Progress', 0),
+('getAllTasks_shouldPass_whenStatusFilterGiven_title6',
+ 'getAllTasks_shouldPass_whenStatusFilterGiven_description_6', 'Done', 0),
+('getAllTasks_shouldPass_whenStatusFilterGiven_title7',
+ 'getAllTasks_shouldPass_whenStatusFilterGiven_description_7', 'To Do', 0);

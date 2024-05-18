@@ -48,11 +48,19 @@ public class TaskManagerExceptionHandler extends CommonResponseEntityExceptionHa
     }
 
     @SuppressWarnings({"rawtypes"})
-    @ExceptionHandler({TaskNotFoundException.class, BadRequestException.class})
+    @ExceptionHandler({BadRequestException.class})
     public final ResponseEntity<Response> handleClientErrors(TaskManagerException ex) {
         log.error("CLIENT_ERROR", ex);
         Response errorResponse = new Response<Void>(Status.CLIENT_ERROR, ex.getError());
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @SuppressWarnings({"rawtypes"})
+    @ExceptionHandler({TaskNotFoundException.class})
+    public final ResponseEntity<Response> handleNotFoundExceptions(TaskManagerException ex) {
+        log.error("CLIENT_ERROR", ex);
+        Response errorResponse = new Response<Void>(Status.CLIENT_ERROR, ex.getError());
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
     @SuppressWarnings({"rawtypes"})
