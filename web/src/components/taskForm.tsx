@@ -1,37 +1,42 @@
 import * as React from 'react';
 import Task from '../models/task';
 
-import {Input, Button} from '../common/components/form';
+import {Button, Input, Select} from '../common/components/form';
 
 interface Props {
     task: Task;
+    edit: boolean;
     onChange: (fieldName: string, value: string) => void;
     onSave: () => void;
 }
 
 export const TaskForm: React.FunctionComponent<Props> = (props) => {
+    const statuses = ['To Do', 'In Progress', 'Done'];
     return (
         <form>
             <h1>Manage Task</h1>
 
             <Input
-                name="Title"
+                name="title"
                 label="Title"
                 value={props.task.title}
+                readonly={props.edit}
                 onChange={props.onChange}
             />
 
             <Input
-                name="Description"
+                name="description"
                 label="Description"
                 value={props.task.description}
+                readonly={props.edit}
                 onChange={props.onChange}
             />
 
-            <Input
-                name="Status"
+            <Select
+                name="status"
                 label="Status"
-                value={props.task.status.toString()}
+                value={props.task.status}
+                options={statuses}
                 onChange={props.onChange}
             />
 

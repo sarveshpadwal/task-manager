@@ -10,11 +10,13 @@ export default class BaseService {
         let errorDetails:ErrorDetails[] = [];
         let res = await axios.get<Array<T>>(this.baseURL + url)
             .then((response: any) => {
-                if (response?.errors?.length > 0) {
-                    errorDetails = response.errors.map((err: { code: string; message: string; target: string; }) =>
+                const apiResponse = response.data;
+                console.log("getAll api response:", apiResponse);
+                if (apiResponse?.errors?.length > 0) {
+                    errorDetails = apiResponse.errors.map((err: { code: string; message: string; target: string; }) =>
                         new ErrorDetails(err.code, err.message, err.target));
                 }
-                return new Response(response.status, response.data as Array<T>, errorDetails);
+                return new Response(apiResponse.status, apiResponse.data as Array<T>, errorDetails);
             })
             .catch(function (error: any) {
                 console.log('getAll api failed', error);
@@ -31,11 +33,13 @@ export default class BaseService {
         let errorDetails:ErrorDetails[] = [];
         let res = axios.get<T>(this.baseURL + url + param)
             .then((response: any) => {
-                if (response?.errors?.length > 0) {
-                    errorDetails = response.errors.map((err: { code: string; message: string; target: string; }) =>
+                const apiResponse = response.data;
+                console.log("get api response:", apiResponse);
+                if (apiResponse?.errors?.length > 0) {
+                    errorDetails = apiResponse.errors.map((err: { code: string; message: string; target: string; }) =>
                         new ErrorDetails(err.code, err.message, err.target));
                 }
-                return new Response(response.status, response.data, errorDetails);
+                return new Response(apiResponse.status, apiResponse.data, errorDetails);
             })
             .catch(function (error: any) {
                 console.log('get api failed', error);
@@ -51,13 +55,15 @@ export default class BaseService {
     public static delete(url: string, param: any): Promise<Response> {
         console.log(param);
         let errorDetails:ErrorDetails[] = [];
-        let res = axios.delete(this.baseURL + url, {data: param})
+        let res = axios.delete(this.baseURL + url + param)
             .then((response: any) => {
-                if (response?.errors?.length > 0) {
-                    errorDetails = response.errors.map((err: { code: string; message: string; target: string; }) =>
+                const apiResponse = response.data;
+                console.log("delete api response:", apiResponse);
+                if (apiResponse?.errors?.length > 0) {
+                    errorDetails = apiResponse.errors.map((err: { code: string; message: string; target: string; }) =>
                         new ErrorDetails(err.code, err.message, err.target));
                 }
-                return new Response(response.status, response.data, errorDetails);
+                return new Response(apiResponse.status, apiResponse.data, errorDetails);
             })
             .catch(function (error: any) {
                 console.log('delete api failed', error);
@@ -74,11 +80,12 @@ export default class BaseService {
         let errorDetails:ErrorDetails[] = [];
         let res = axios.post(this.baseURL + url, obj)
             .then((response: any) => {
-                if (response?.errors?.length > 0) {
-                    errorDetails = response.errors.map((err: { code: string; message: string; target: string; }) =>
+                const apiResponse = response.data;
+                if (apiResponse?.errors?.length > 0) {
+                    errorDetails = apiResponse.errors.map((err: { code: string; message: string; target: string; }) =>
                         new ErrorDetails(err.code, err.message, err.target));
                 }
-                return new Response(response.status, response.data, errorDetails);
+                return new Response(apiResponse.status, apiResponse.data, errorDetails);
             })
             .catch(function (error: any) {
                 console.log('create api failed', error);
@@ -93,13 +100,15 @@ export default class BaseService {
 
     public static update<T>(url: string, param: any, obj: T): Promise<Response> {
         let errorDetails:ErrorDetails[] = [];
-        let res = axios.post(this.baseURL + url + param, obj)
+        let res = axios.put(this.baseURL + url + param, obj)
             .then((response: any) => {
-                if (response?.errors?.length > 0) {
-                    errorDetails = response.errors.map((err: { code: string; message: string; target: string; }) =>
+                const apiResponse = response.data;
+                console.log("update api response:", apiResponse);
+                if (apiResponse?.errors?.length > 0) {
+                    errorDetails = apiResponse.errors.map((err: { code: string; message: string; target: string; }) =>
                         new ErrorDetails(err.code, err.message, err.target));
                 }
-                return new Response(response.status, response.data, errorDetails);
+                return new Response(apiResponse.status, apiResponse.data, errorDetails);
             })
             .catch(function (error: any) {
                 console.log('update api failed', error);

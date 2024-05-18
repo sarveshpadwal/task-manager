@@ -34,7 +34,7 @@ class Edit extends React.Component<IProps, IState> {
     private onFieldValueChange(fieldName: string, value: string) {
         const nextState = {
             ...this.state,
-            person: {
+            task: {
                 ...this.state.task,
                 [fieldName]: value,
             }
@@ -66,7 +66,13 @@ class Edit extends React.Component<IProps, IState> {
                     toastr.success('task updated');
                     this.props.history.back();
                 } else {
-                    toastr.error(JSON.stringify(rp.errors));
+                    (rp.errors || []).forEach((err: any) => {
+                        toastr.error(
+                            err.displayMessage,
+                            "",
+                            { timeOut: 8000 }
+                        );
+                    });
                     console.log("errors: " + rp.errors);
                 }
             }
@@ -78,6 +84,7 @@ class Edit extends React.Component<IProps, IState> {
         return (
             <TaskPage
                 task={this.state.task}
+                edit={true}
                 onChange={this.onFieldValueChange}
                 onSave={this.onSave}
             />

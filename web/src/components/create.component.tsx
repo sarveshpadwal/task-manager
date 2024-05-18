@@ -21,7 +21,7 @@ export default class Create extends React.Component<IProps, IState> {
                 id: '',
                 title: '',
                 description: '',
-                status: '',
+                status: 'To Do',
             }
         }
         this.onFieldValueChange = this.onFieldValueChange.bind(this);
@@ -30,7 +30,7 @@ export default class Create extends React.Component<IProps, IState> {
     private onFieldValueChange(fieldName: string, value: string) {
         const nextState = {
             ...this.state,
-            person: {
+            task: {
                 ...this.state.task,
                 [fieldName]: value,
             }
@@ -42,19 +42,27 @@ export default class Create extends React.Component<IProps, IState> {
     private onSave = () => {
         BaseService.create<Task>("/tasks", this.state.task).then(
             (rp) => {
+                console.log("create task api response:", rp);
                 if ("SUCCESS" === rp.status) {
+                    console.log("create task api successful");
                     toastr.success('task created');
                     this.setState({
                         task: {
                             id: '',
                             title: '',
                             description: '',
-                            status: '',
+                            status: 'To Do',
                         }
                     });
-
                 } else {
-                    toastr.error(JSON.stringify(rp.errors));
+                    console.log("create task api failed");
+                    (rp.errors || []).forEach((err: any) => {
+                        toastr.error(
+                            err.displayMessage,
+                            "",
+                            { timeOut: 8000 }
+                        );
+                    });
                     console.log("errors: " + rp.errors);
                 }
             }
@@ -66,6 +74,7 @@ export default class Create extends React.Component<IProps, IState> {
         return (
             <TaskPage
                 task={this.state.task}
+                edit={false}
                 onChange={this.onFieldValueChange}
                 onSave={this.onSave}
             />

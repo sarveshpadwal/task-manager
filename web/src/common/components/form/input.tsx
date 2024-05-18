@@ -5,6 +5,7 @@ interface Props {
   label: string;
   placeholder?: string;
   value: string;
+  readonly: boolean;
   onChange: (fieldName: string, value: string) => void;
   error?: string;
 }
@@ -20,6 +21,7 @@ export const Input: React.FunctionComponent<Props> = (props) => {
           placeholder={props.placeholder}
           value={props.value}
           onChange={onChangeInput(props)}
+          readOnly={props.readonly}
         />
       </div>
       <div className="help-block">{props.error}</div>

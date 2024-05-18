@@ -3,11 +3,14 @@ import TableRow from "./TableRow";
 import Task from "../models/task";
 import BaseService from "../service/base.service";
 import * as toastr from "toastr";
+import ErrorDetails from "../models/errordetails";
+
 interface IProps {}
 interface IState {
   listTasks: Array<Task>;
   isReady: Boolean;
   hasError: Boolean;
+  errors: Array<ErrorDetails>;
 }
 
 class Index extends React.Component<IProps, IState> {
@@ -15,13 +18,15 @@ class Index extends React.Component<IProps, IState> {
     listTasks: new Array<Task>(),
     isReady: false,
     hasError: false,
+    errors: new Array<ErrorDetails>()
   };
   constructor(props: IProps) {
     super(props);
     this.state = {
-      isReady: false,
       listTasks: Array<Task>(),
+      isReady: false,
       hasError: false,
+      errors: new Array<ErrorDetails>()
     };
   }
 
@@ -36,8 +41,13 @@ class Index extends React.Component<IProps, IState> {
         this.setState({ listTasks: listTasks });
         this.setState({ isReady: true });
       } else {
+        const errors = new Array<ErrorDetails>();
+        (rp.errors || []).forEach((err: any) => {
+          errors.push(new ErrorDetails(err.code, err.message, err.target));
+        });
         this.setState({ isReady: true });
         this.setState({ hasError: true });
+        this.setState({ errors: errors });
         console.log("errors: " + rp.errors);
       }
     });
@@ -52,11 +62,13 @@ class Index extends React.Component<IProps, IState> {
       }
 
       if (this.state.hasError) {
-        toastr.error(
-          "An error occurred!",
-          "",
-          { timeOut: 8000 }
-        );
+        (this.state.errors || []).forEach((err: any) => {
+          toastr.error(
+              err.displayMessage,
+              "",
+              { timeOut: 8000 }
+          );
+        });
       }
     }, 2000);
   }
@@ -74,15 +86,17 @@ class Index extends React.Component<IProps, IState> {
       );
     }
     if (this.state.hasError) {
-      return (
-        <tr>
-          <td colSpan={6} className="text-center">
-            <div className="alert alert-danger" role="alert">
-              An error occurred!
-            </div>
-          </td>
-        </tr>
-      );
+      return this.state.errors.map(function (err, i) {
+        return (
+            <tr>
+              <td colSpan={6} className="text-center">
+                <div className="alert alert-danger" role="alert">
+                  {err.displayMessage}
+                </div>
+              </td>
+            </tr>
+        );
+      });
     }
 
     return this.state.listTasks.map(function (object, i) {
@@ -95,9 +109,8 @@ class Index extends React.Component<IProps, IState> {
       <div>
         <h3 className="text-center">Tasks List</h3>
         <table className="table table-striped" style={{ marginTop: 20 }}>
-          <thead>
+          <thead style={{ position: "sticky", top: 0 }}>
             <tr>
-              <th>Index</th>
               <th>Title</th>
               <th>Description</th>
               <th>Status</th>
