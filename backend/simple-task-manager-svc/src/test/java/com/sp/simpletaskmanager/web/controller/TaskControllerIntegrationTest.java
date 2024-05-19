@@ -220,7 +220,8 @@ class TaskControllerIntegrationTest extends AbstractContainerBaseTest {
         assertEquals(taskPayload.getDescription(), taskDetails.getDescription());
         assertEquals(taskPayload.getStatus(), taskDetails.getStatus());
 
-        TaskStatus updatedTaskStatus = entityManager.createQuery("SELECT status FROM Task WHERE id = :id", TaskStatus.class)
+        TaskStatus updatedTaskStatus = entityManager.createQuery("SELECT status FROM Task WHERE id = :id",
+                        TaskStatus.class)
                 .setParameter("id", taskId)
                 .getSingleResult();
         assertEquals(taskPayload.getStatus(), updatedTaskStatus);

@@ -73,7 +73,8 @@ public interface TaskApi {
                     )))
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/tasks", produces = MediaType.APPLICATION_JSON_VALUE)
-    default Response<List<TaskDetails>> getAllTasks(@RequestParam(value = "status", required = false) TaskStatus status) {
+    default Response<List<TaskDetails>> getAllTasks(
+            @RequestParam(value = "status", required = false) TaskStatus status) {
         List<TaskDetails> taskDetailsList = getDelegate().getAllTasks(status);
         return new Response<>(Status.SUCCESS, taskDetailsList);
     }
