@@ -1,0 +1,45 @@
+version: "3.9"
+
+volumes:
+  std_tm_dbdata:
+    driver: local
+
+services:
+  keycloak:
+    image: "keycloak/keycloak:24.0.4"
+    container_name: "standard_task_manager_keycloak_server"
+    environment:
+      KEYCLOAK_ADMIN: "admin"
+      KEYCLOAK_ADMIN_PASSWORD: "password"
+    ports:
+      - '8888:8080'
+    command: [ "start-dev" ]
+
+  std_tm_db:
+    image: "postgres:15.2"
+    container_name: "standard_task_manager"
+    environment:
+      POSTGRES_USER: "taskmgrdbuser"
+      POSTGRES_PASSWORD: "$$@rv3$$h"
+      POSTGRES_DB: "standard_task_manager"
+    ports:
+      - '5432:5432'
+    command: [ "postgres", "-c", "log_statement=all" ]
+    volumes:
+      - std_tm_dbdata:/var/lib/postgresql/data
+
+  zipkin-server:
+    image: openzipkin/zipkin:latest
+    ports:
+      - '9411:9411'
+    environment:
+      RABBIT_URI: amqp://guest:guest@rabbitmq:5672
+    depends_on:
+      - rabbitmq
+    restart: always
+
+  rabbitmq:
+    image: rabbitmq:3.8.12-management
+    ports:
+      - '5672:5672'
+      - '15672:15672'
