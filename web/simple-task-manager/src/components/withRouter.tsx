@@ -1,5 +1,5 @@
-import { ComponentType } from 'react';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import {ComponentType} from 'react';
+import {useLocation, useNavigate, useParams} from 'react-router-dom';
 import {BrowserHistory, createBrowserHistory} from "history";
 
 export interface WithRouterProps<T = ReturnType<typeof useParams>> {
