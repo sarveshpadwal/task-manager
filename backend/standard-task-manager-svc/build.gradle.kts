@@ -33,6 +33,7 @@ val antisamyVersion: String by extra("1.7.5")
 val logstashLogbackEncoderVersion: String by extra("7.2")
 val springdocOpenapiStarterWebmvcUiVersion: String by extra("2.5.0")
 val testContainerVersion: String by extra("1.19.7")
+val mockOauth2ServerVersion: String by extra("2.1.2")
 
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
@@ -60,6 +61,7 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.testcontainers:postgresql:$testContainerVersion")
 	testImplementation("org.testcontainers:junit-jupiter:$testContainerVersion")
+	testImplementation("no.nav.security:mock-oauth2-server:$mockOauth2ServerVersion")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 

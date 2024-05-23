@@ -1,0 +1,1 @@
+DELETE FROM task WHERE title LIKE 'editTask_shouldPass%';
