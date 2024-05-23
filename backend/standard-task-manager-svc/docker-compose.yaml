@@ -3,6 +3,8 @@ version: "3.9"
 volumes:
   std_tm_dbdata:
     driver: local
+  std_keycloak_data:
+    driver: local
 
 services:
   keycloak:
@@ -14,6 +16,8 @@ services:
     ports:
       - '8888:8080'
     command: [ "start-dev" ]
+    volumes:
+      - std_keycloak_data:/opt/keycloak/data/
 
   std_tm_db:
     image: "postgres:15.2"
